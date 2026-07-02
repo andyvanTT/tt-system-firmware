@@ -54,6 +54,11 @@ if(TARGET recovery)
   return()
 endif()
 
+# ======== Optionally build & swap in a custom ERISC firmware blob ========
+# Runs once (after the recursion guard above) so the swapped blob is present
+# before generate_bootfs reads the blobs directory further down.
+include(${CMAKE_CURRENT_LIST_DIR}/../../cmake/erisc_blob.cmake)
+
 # This command will trigger recursive processing of the file. See above
 # for how we skip this
 ExternalZephyrProject_Add(
