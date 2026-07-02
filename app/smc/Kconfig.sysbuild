@@ -14,3 +14,35 @@ config DMC_BOARD
 	default "tt_blackhole@p300b/tt_blackhole/dmc" if $(BOARD_REVISION) = "p300b"
 	default "tt_blackhole@p300c/tt_blackhole/dmc" if $(BOARD_REVISION) = "p300c"
 	default "tt_blackhole@orion_slt/tt_blackhole/dmc" if $(BOARD_REVISION) = "orion_slt"
+
+config CUSTOM_ERISC_DIR
+	string "Custom ERISC firmware source directory"
+	default ""
+	help
+	  Path to an external ERISC (Ethernet RISC) firmware source tree. When set,
+	  the build compiles the ERISC firmware from this directory and swaps the
+	  result in for the stock prebuilt blob. When empty (the default), the stock
+	  prebuilt blob in zephyr/blobs is used unchanged.
+
+config CUSTOM_ERISC_TOOLCHAIN_PREFIX
+	string "RISC-V toolchain prefix for building custom ERISC firmware"
+	default "/opt/tenstorrent/sfpi/compiler/bin/riscv-tt-elf-"
+	help
+	  Value passed as RISCV_TOOLS_PREFIX to the ERISC firmware Makefile. Only
+	  used when CUSTOM_ERISC_DIR is set.
+
+config CUSTOM_ERISC_ARCH
+	string "ARCH/ABI flags for building custom ERISC firmware"
+	default "-march=rv32imafv -mabi=ilp32"
+	help
+	  Value passed as ARCH to the ERISC firmware Makefile. The default uses the
+	  soft-float ABI so it links against the SFPI toolchain's runtime libraries
+	  (which ship ilp32 only, no ilp32f). Only used when CUSTOM_ERISC_DIR is set.
+
+config CUSTOM_ERISC_VERSION
+	string "Version (major.minor.patch) stamped into custom ERISC firmware"
+	default "69.4.20"
+	help
+	  Written into the ERISC source eth_version.h before building so the custom
+	  firmware reports a distinctive version (visible at blob offset 0x188 / in
+	  telemetry). Each field must be 0-255. Only used when CUSTOM_ERISC_DIR is set.
