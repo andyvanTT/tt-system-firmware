@@ -63,11 +63,11 @@ if(NOT "${SB_CONFIG_CUSTOM_ERISC_DIR}" STREQUAL "")
     message(FATAL_ERROR "ERISC version header not found at ${_erisc_version_h}.")
   endif()
   file(READ ${_erisc_version_h} _erisc_vh)
-  string(REGEX REPLACE "#define[ \t]+ETH_INIT_VERSION_MAJOR[ \t]+[0-9]+"
+  string(REGEX REPLACE "#define[ \t]+ETH_INIT_VERSION_MAJOR[ \t]+(0x)?[0-9a-fA-F]+"
     "#define ETH_INIT_VERSION_MAJOR  ${_erisc_ver_major}" _erisc_vh "${_erisc_vh}")
-  string(REGEX REPLACE "#define[ \t]+ETH_INIT_VERSION_MINOR[ \t]+[0-9]+"
+  string(REGEX REPLACE "#define[ \t]+ETH_INIT_VERSION_MINOR[ \t]+(0x)?[0-9a-fA-F]+"
     "#define ETH_INIT_VERSION_MINOR  ${_erisc_ver_minor}" _erisc_vh "${_erisc_vh}")
-  string(REGEX REPLACE "#define[ \t]+ETH_INIT_VERSION_PATCH[ \t]+[0-9]+"
+  string(REGEX REPLACE "#define[ \t]+ETH_INIT_VERSION_PATCH[ \t]+(0x)?[0-9a-fA-F]+"
     "#define ETH_INIT_VERSION_PATCH  ${_erisc_ver_patch}" _erisc_vh "${_erisc_vh}")
   file(WRITE ${_erisc_version_h} "${_erisc_vh}")
 
